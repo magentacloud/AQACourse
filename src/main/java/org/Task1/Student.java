@@ -21,7 +21,8 @@ public class Student {
     }
 
     public List<Integer> getGrades() {
-        return grades;
+        List<Integer> result = new ArrayList<Integer>(grades);
+        return result;
     }
 
     public void addGrade(int grade) {
