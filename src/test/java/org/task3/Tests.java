@@ -31,9 +31,11 @@ public class Tests {
     //Проверяем требования 1, 3, 7 из задания #1. API Тесты. Сервис «Студент»
     @Test
     public void studentLifecycleTest(){
-        int id = faker.number().randomDigit();
+        int id = Integer.parseInt(faker.number().digits(5));
         String name = faker.name().firstName();
         List<Integer> marks = List.of(2, 3, 2, 3);
+
+        createdIDs.add(id);
 
         StudentDTO student = new StudentDTO();
         student.setId(id);
@@ -65,7 +67,7 @@ public class Tests {
     //Проверяем требование 4
     @Test
     public void updateStudentWithSameIdTest(){
-        int id = faker.number().randomDigit();
+        int id = Integer.parseInt(faker.number().digits(5));
         String name = faker.name().firstName();
         List<Integer> marks = List.of(2, 3, 2, 3);
 
@@ -103,16 +105,16 @@ public class Tests {
 
         StudentPostResponse response = StudentsRepository.studentsApi.addStudent(student);
 
+        createdIDs.add(response.getCreatedID());
+
         Assertions.assertEquals(201, response.getStatusCode());
         Assertions.assertNotNull(response.getCreatedID());
-
-        StudentsRepository.studentsApi.deleteStudent(response.getCreatedID());
     }
 
     //Проверяем требование 6
     @Test
     public void createStudentWithNullNameTest(){
-        int id = faker.number().randomDigit();
+        int id = Integer.parseInt(faker.number().digits(5));
         List<Integer> marks = List.of(2, 3, 2, 3);
 
         StudentDTO student = new StudentDTO();
@@ -144,10 +146,10 @@ public class Tests {
     //Проверяем требование 10
     @Test
     public void getTopStudentWithEmptyMarksTest(){
-        int id = faker.number().randomDigit();
+        int id = Integer.parseInt(faker.number().digits(5));
         String name = faker.name().firstName();
 
-        int id1  = faker.number().randomDigit();
+        int id1  = Integer.parseInt(faker.number().digits(5));
         String name1 = faker.name().firstName();
 
         createStudent(id, name, null);
@@ -162,11 +164,11 @@ public class Tests {
     //Проверяем требование 11 получение студента с самым большим числом оценок с одинаковой средней
     @Test
     public void getTopStudentTest(){
-        int id = faker.number().randomDigit();
+        int id = Integer.parseInt(faker.number().digits(5));
         String name = faker.name().firstName();
         List<Integer> marks = List.of(5, 4, 5, 5);
 
-        int id1 = faker.number().randomDigit();
+        int id1 = Integer.parseInt(faker.number().digits(5));
         String name1 = faker.name().firstName();
         List<Integer> marks1 = List.of(2, 3, 2, 3);
 
@@ -185,11 +187,11 @@ public class Tests {
     //Проверяем требование 11(получение студента с самым большим числом оценок с одинаковой средней)
     @Test
     public void getTopStudentWithSimilarAverageTest(){
-        int id = faker.number().randomDigit();
+        int id = Integer.parseInt(faker.number().digits(5));
         String name = faker.name().firstName();
         List<Integer> marks = List.of(4, 4, 4, 4);
 
-        int id1 = faker.number().randomDigit();
+        int id1 = Integer.parseInt(faker.number().digits(5));
         String name1 = faker.name().firstName();
         List<Integer> marks1 = List.of(4, 4, 4, 4, 4);
 
@@ -207,15 +209,15 @@ public class Tests {
     //Проверяем требование 12
     @Test
     public void getMultipleTopStudentsTest(){
-        int id = faker.number().randomDigit();
+        int id = Integer.parseInt(faker.number().digits(5));
         String name = faker.name().firstName();
         List<Integer> marks = List.of(4, 4, 4, 4);
 
-        int id1 = faker.number().randomDigit();
+        int id1 = Integer.parseInt(faker.number().digits(5));
         String name1 = faker.name().firstName();
         List<Integer> marks1 = List.of(2, 3, 2, 3, 2);
 
-        int id2 = faker.number().randomDigit();
+        int id2 = Integer.parseInt(faker.number().digits(5));
         String name2 = faker.name().firstName();
         List<Integer> marks2 = List.of(4, 4, 4, 4);
 
