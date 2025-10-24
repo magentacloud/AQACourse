@@ -55,10 +55,30 @@ public class Tests {
         Assertions.assertEquals(200, statusCode, "Неверный код статуса при удалении");
     }
 
-    //Проверяем требование 2
+    //Проверяем требование 2 при пустой БД
+    @Test
+    public void studentNotFoundTestWithEmptyBase(){
+        StudentGetResponse response = StudentsRepository.studentsApi.getStudent(111);
+
+        Assertions.assertNull(response.getStudentDTO());
+        Assertions.assertEquals(404, response.getStatusCode());
+    }
+
+    //Проверяем требование 2 при наличии других студентов в базе
     @Test
     public void studentNotFoundTest(){
-        StudentGetResponse response = StudentsRepository.studentsApi.getStudent(111);
+        int id = Integer.parseInt(faker.number().digits(5));
+        String name = faker.name().firstName();
+        List<Integer> marks = List.of(5, 4, 5, 5);
+
+        int id1 = Integer.parseInt(faker.number().digits(5));
+        String name1 = faker.name().firstName();
+        List<Integer> marks1 = List.of(2, 3, 2, 3);
+
+        createStudent(id, name, marks);
+        createStudent(id1, name1, marks1);
+
+        StudentGetResponse response = StudentsRepository.studentsApi.getStudent(666666);
 
         Assertions.assertNull(response.getStudentDTO());
         Assertions.assertEquals(404, response.getStatusCode());
@@ -105,10 +125,16 @@ public class Tests {
 
         StudentPostResponse response = StudentsRepository.studentsApi.addStudent(student);
 
-        createdIDs.add(response.getCreatedID());
+        int id = response.getCreatedID();
+        createdIDs.add(id);
 
         Assertions.assertEquals(201, response.getStatusCode());
         Assertions.assertNotNull(response.getCreatedID());
+
+        StudentGetResponse response1 = StudentsRepository.studentsApi.getStudent(id);
+        Assertions.assertEquals(200, response1.getStatusCode());
+        Assertions.assertEquals(name, response1.getStudentDTO().getName());
+        Assertions.assertEquals(marks, response1.getStudentDTO().getMarks());
     }
 
     //Проверяем требование 6
