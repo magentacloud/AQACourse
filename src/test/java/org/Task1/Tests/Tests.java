@@ -104,7 +104,7 @@ public class Tests {
     public void CheckDifferentStudentsWithSameNameIsNotEqual(){
         StudentBuilder builder = new StudentBuilder();
         builder.setName("Ivan");
-        builder.setGrades(new ArrayList<Integer>(Arrays.asList(new Integer[]{5, 5, 3, 4})));
+        builder.setGrades(new ArrayList<Integer>(Arrays.asList(5, 5, 3, 4)));
         Student student1 = builder.build();
 
         Assertions.assertFalse(student.equals(student1));
