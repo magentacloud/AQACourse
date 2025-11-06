@@ -36,7 +36,7 @@ public class EmployeeDAO extends BaseDAO {
         final String query = """
         SELECT *
         FROM Employee
-        WHERE ID = %d
+        WHERE DepartmentID = %d
                            \s""".formatted(departmentID);
 
         return jdbi.withHandle(

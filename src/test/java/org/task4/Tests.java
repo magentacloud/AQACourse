@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.task4.db.dao.DaoRepository;
 import org.task4.db.dao.company.EmployeeDAO;
+import org.task4.db.dao.company.entity.DepartmentEntity;
 import org.task4.db.dao.company.entity.EmployeeEntity;
 
 import java.sql.Connection;
@@ -60,6 +61,24 @@ public class Tests {
         List<EmployeeEntity> entities = DaoRepository.employeeDAO.getEmployeeByDepartmentID(departmentID);
 
         log.info("Всего сотрудников в IT-отделе:{}", entities.size());
+    }
+
+    //Задание 2 удаление отдела
+    @Test
+    public void deleteDepartmentTest(){
+        int departmentID = 3;
+
+        try {
+            DepartmentEntity entity = DaoRepository.departmentDAO.getDepartmentByID(2);
+        } catch (IllegalStateException exception){
+            Assertions.assertEquals("Expected one element, but found none", exception.getMessage());
+        }
+
+        try{
+            List<EmployeeEntity> entities = DaoRepository.employeeDAO.getEmployeeByDepartmentID(departmentID);
+        } catch (IllegalStateException exception){
+            Assertions.assertEquals("Expected one element, but found none", exception.getMessage());
+        }
     }
 
 }
