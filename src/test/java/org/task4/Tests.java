@@ -69,13 +69,15 @@ public class Tests {
         int departmentID = 3;
 
         try {
-            DepartmentEntity entity = DaoRepository.departmentDAO.getDepartmentByID(2);
+            DepartmentEntity entity = DaoRepository.departmentDAO.getDepartmentByID(departmentID);
+            Assertions.assertNull(entity, "Отдел с ID=" + departmentID + " существует в БД");
         } catch (IllegalStateException exception){
             Assertions.assertEquals("Expected one element, but found none", exception.getMessage());
         }
 
         try{
             List<EmployeeEntity> entities = DaoRepository.employeeDAO.getEmployeeByDepartmentID(departmentID);
+            Assertions.assertNull(entities, "Сотрудники отдела с ID=" + departmentID + " существуют в БД");
         } catch (IllegalStateException exception){
             Assertions.assertEquals("Expected one element, but found none", exception.getMessage());
         }
