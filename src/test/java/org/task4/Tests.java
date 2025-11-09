@@ -66,7 +66,7 @@ public class Tests {
     //Задание 2 удаление отдела
     @Test
     public void deleteDepartmentTest(){
-        int departmentID = 3;
+        int departmentID = 1;
 
         try {
             DepartmentEntity entity = DaoRepository.departmentDAO.getDepartmentByID(departmentID);
