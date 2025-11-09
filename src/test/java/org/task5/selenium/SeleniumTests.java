@@ -5,12 +5,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.task3.env.Env;
 import org.task3.env.config.SeleniumConfig;
+import org.task5.selenium.PageObjects.GooglePage;
 import org.task5.selenium.PageObjects.PikabuLoginPage;
 import org.task5.selenium.PageObjects.PikabuMainPage;
+import org.task5.selenium.PageObjects.PobedaMainPage;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -20,12 +24,26 @@ public class SeleniumTests {
     private static WebDriver driver;
     private static PikabuMainPage pikabuMainPage;
     private static PikabuLoginPage pikabuLoginPage;
+    private static GooglePage googlePage;
+    private static PobedaMainPage pobedaMainPage;
 
     @BeforeAll
     public static void beforeAll(){
-        if(Objects.equals(CONFIG.browserType(), "chrome"))
-            driver = new ChromeDriver();
+        if(Objects.equals(CONFIG.browserType(), "chrome")){
+            ChromeOptions options = new ChromeOptions();
+
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--disable-extensions");
+            options.addArguments("--remote-allow-origins=*");
+
+            options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+
+            driver = new ChromeDriver(options);
+        }
         driver.manage().timeouts().pageLoadTimeout(Duration.ofMillis(CONFIG.pageLoadTimeout()));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(CONFIG.timeout()));
         driver.manage().window().setSize(new Dimension(CONFIG.browserWidth(), CONFIG.browserhHeight()));
     }
 
@@ -40,6 +58,22 @@ public class SeleniumTests {
         String loginError =  pikabuLoginPage.loginWithIncorrectCredentials("qwerty", "qwerty");
 
         Assertions.assertEquals("Ошибка. Вы ввели неверные данные авторизации", loginError);
+    }
+
+    @Test
+    public void googlePobedaTest(){
+        googlePage = new GooglePage(driver, CONFIG.baseUrlGoogle());
+        pobedaMainPage = googlePage.findPobedaMainPage();
+
+        pobedaMainPage.waitForTripToKaliningrad();
+
+        Assertions.assertEquals("Полетели в Калининград!", pobedaMainPage.getTripToKaliningradText());
+
+        pobedaMainPage.changeLanguageToEN();
+
+        Assertions.assertEquals("Ticket search", pobedaMainPage.getTicketSearchEnButtonText());
+        Assertions.assertEquals("Online check-in", pobedaMainPage.getOnlineCheckInEnButtonText());
+        Assertions.assertEquals("Manage my booking", pobedaMainPage.getManageMyBookingEnButtonText());
     }
 
     @AfterEach

@@ -12,6 +12,9 @@ public interface SeleniumConfig extends Config {
     @Key("baseUrlPikabu")
     String baseUrlPikabu();
 
+    @Key("baseUrlGoogle")
+    String baseUrlGoogle();
+
     @Key("browser.type")
     String browserType();
 
@@ -20,8 +23,6 @@ public interface SeleniumConfig extends Config {
 
     @Key("browser.height")
     Integer browserhHeight();
-
-
 
     @Key("browser.headless")
     Boolean browserHeadless();
