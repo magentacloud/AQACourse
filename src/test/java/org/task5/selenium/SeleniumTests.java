@@ -89,6 +89,26 @@ public class SeleniumTests {
         Assertions.assertEquals("О компании", pobedaMainPage.getCompanyInformationHeaderText());
     }
 
+    @Test
+    public void pobedaSearchWithoutDateTest(){
+        pobedaMainPage = new PobedaMainPage(driver, CONFIG.baseUrlPobeda());
+
+        Assertions.assertEquals("Авиакомпания «Победа» - купить авиабилеты онлайн, дешёвые билеты на самолёт, прямые и трансферные рейсы с пересадками"
+                ,pobedaMainPage.getTitle());
+        Assertions.assertTrue(pobedaMainPage.logoIsPresentedOnPage());
+
+        Assertions.assertTrue(pobedaMainPage.pobedaSearchElement.toFieldIsPresentedOnPage());
+        Assertions.assertTrue(pobedaMainPage.pobedaSearchElement.fromFieldIsPresentedOnPage());
+        Assertions.assertTrue(pobedaMainPage.pobedaSearchElement.dateInFieldIsPresentedOnPage());
+        Assertions.assertTrue(pobedaMainPage.pobedaSearchElement.dateOutFieldIsPresentedOnPage());
+
+        pobedaMainPage.pobedaSearchElement.inputFrom("Москва");
+        pobedaMainPage.pobedaSearchElement.inputTo("Санкт-Петербург");
+        pobedaMainPage.pobedaSearchElement.searchButtonClick();
+
+        Assertions.assertTrue(pobedaMainPage.pobedaSearchElement.isSearchFails());
+    }
+
     @AfterEach
     public void teardown(){
         driver.close();

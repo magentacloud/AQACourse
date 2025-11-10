@@ -23,6 +23,8 @@ public class PobedaMainPage extends BasePage{
         driver.get(URL);
     }
 
+    public PobedaSearchElement pobedaSearchElement = new PobedaSearchElement(this.driver);
+
     private final By tripToKaliningradBanner = new By.ByXPath("//button[.//div[contains(., 'Полетели в Калининград!')]]");
     private final By tripToKaliningradDescription = new By.ByXPath("//div[text()='Полетели в Калининград!']");
     private final By languageChangeButton = new By.ByXPath("//button[contains(., 'РУС')]");
