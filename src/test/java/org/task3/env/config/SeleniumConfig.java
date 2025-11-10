@@ -15,6 +15,9 @@ public interface SeleniumConfig extends Config {
     @Key("baseUrlGoogle")
     String baseUrlGoogle();
 
+    @Key("baseUrlPobeda")
+    String baseUrlPobeda();
+
     @Key("browser.type")
     String browserType();
 

@@ -76,6 +76,19 @@ public class SeleniumTests {
         Assertions.assertEquals("Manage my booking", pobedaMainPage.getManageMyBookingEnButtonText());
     }
 
+    @Test
+    public void pobedaModalWindowTest(){
+        pobedaMainPage = new PobedaMainPage(driver, CONFIG.baseUrlPobeda());
+
+        Assertions.assertEquals("Авиакомпания «Победа» - купить авиабилеты онлайн, дешёвые билеты на самолёт, прямые и трансферные рейсы с пересадками"
+                ,pobedaMainPage.getTitle());
+        Assertions.assertTrue(pobedaMainPage.logoIsPresentedOnPage());
+
+        Assertions.assertEquals("Подготовка к полёту", pobedaMainPage.getPreparingToFlightHeaderText());
+        Assertions.assertEquals("Полезная информация", pobedaMainPage.getUsefulInformationHeaderText());
+        Assertions.assertEquals("О компании", pobedaMainPage.getCompanyInformationHeaderText());
+    }
+
     @AfterEach
     public void teardown(){
         driver.close();
