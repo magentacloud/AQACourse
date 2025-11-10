@@ -24,6 +24,7 @@ public class PobedaMainPage extends BasePage{
     }
 
     public PobedaSearchElement pobedaSearchElement = new PobedaSearchElement(this.driver);
+    public PobedaBookingElement pobedaBookingElement = new PobedaBookingElement(this.driver);
 
     private final By tripToKaliningradBanner = new By.ByXPath("//button[.//div[contains(., 'Полетели в Калининград!')]]");
     private final By tripToKaliningradDescription = new By.ByXPath("//div[text()='Полетели в Калининград!']");
@@ -37,6 +38,7 @@ public class PobedaMainPage extends BasePage{
     private final By preparingToFlightHeader = new By.ByXPath("//a[@href='/information#flight']");
     private final By usefulInformationHeader = new By.ByXPath("//a[@href='/information#useful']");
     private final By companyInformationHeader = new By.ByXPath("//a[@href='/information#company']");
+    private final By bookingManagmentButton = new By.ByXPath("//span[text()='Управление бронированием']/..");
 
     public void waitForTripToKaliningrad(){
         WebElement element = driver.findElement(tripToKaliningradBanner);
@@ -136,5 +138,9 @@ public class PobedaMainPage extends BasePage{
         WebElement headerElement = wait.until(ExpectedConditions.visibilityOfElementLocated(companyInformationHeader));
 
         return headerElement.getText();
+    }
+
+    public void bookingManagmentButtonClick(){
+        driver.findElement(bookingManagmentButton).click();
     }
 }

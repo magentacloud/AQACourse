@@ -11,10 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.task3.env.Env;
 import org.task3.env.config.SeleniumConfig;
-import org.task5.selenium.PageObjects.GooglePage;
-import org.task5.selenium.PageObjects.PikabuLoginPage;
-import org.task5.selenium.PageObjects.PikabuMainPage;
-import org.task5.selenium.PageObjects.PobedaMainPage;
+import org.task5.selenium.PageObjects.*;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -109,8 +106,32 @@ public class SeleniumTests {
         Assertions.assertTrue(pobedaMainPage.pobedaSearchElement.isSearchFails());
     }
 
+    @Test
+    public void pobedaSearchBookingResults(){
+        pobedaMainPage = new PobedaMainPage(driver, CONFIG.baseUrlPobeda());
+
+        Assertions.assertEquals("Авиакомпания «Победа» - купить авиабилеты онлайн, дешёвые билеты на самолёт, прямые и трансферные рейсы с пересадками"
+                ,pobedaMainPage.getTitle());
+        Assertions.assertTrue(pobedaMainPage.logoIsPresentedOnPage());
+
+        pobedaMainPage.bookingManagmentButtonClick();
+
+        Assertions.assertTrue(pobedaMainPage.pobedaBookingElement.clientSurnameFieldIsPresentedOnPage());
+        Assertions.assertTrue(pobedaMainPage.pobedaBookingElement.ticketNumberFieldIsPresentedOnPage());
+        Assertions.assertTrue(pobedaMainPage.pobedaBookingElement.searchButtonIsPresentedOnPage());
+
+        pobedaMainPage.pobedaBookingElement.inputSurname("Qwerty");
+        pobedaMainPage.pobedaBookingElement.inputTicketNumber("XXXXXX");
+        PobedaTicketPage ticketPage = pobedaMainPage.pobedaBookingElement.searchButtonClick();
+
+        ticketPage.agreeWithConfidentialPolicy();
+        ticketPage.findButtonClick();
+
+        Assertions.assertEquals("Заказ с указанными параметрами не найден", ticketPage.getErrorText());
+    }
+
     @AfterEach
     public void teardown(){
-        driver.close();
+        driver.quit();
     }
 }
